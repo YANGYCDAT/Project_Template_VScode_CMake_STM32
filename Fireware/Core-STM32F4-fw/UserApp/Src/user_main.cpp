@@ -8,8 +8,10 @@
  *
  * @param NULL
  */
-void userMain() {
-    // Launch all the tasks
-    launchAllTasks();
-    // 
+void UserMain() {
+    // Initialize communnication
+    InitCommunication();
+
+    // Launch all tasks
+    LaunchAllTasks();
 }

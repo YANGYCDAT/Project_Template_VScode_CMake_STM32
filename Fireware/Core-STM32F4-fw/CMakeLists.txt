@@ -80,6 +80,7 @@ add_link_options(-Wl,-gc-sections,--print-memory-usage,-Map=${PROJECT_BINARY_DIR
 add_link_options(-mcpu=cortex-m4 -mthumb -mthumb-interwork)
 add_link_options(-T ${LINKER_SCRIPT})
 
+
 link_directories("Drivers/CMSIS/Lib")
 link_libraries("arm_cortexM4lf_math.a")
 

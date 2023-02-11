@@ -7,7 +7,10 @@
         "common_inc.h": "c",
         "global.h": "c",
         "gpio.h": "c",
-        "user_main.h": "c"
+        "user_main.h": "c",
+        "time.h": "c",
+        "errno.h": "c",
+        "retarget.h": "c"
     },
     "commentTranslate.targetLanguage": "en"
 }

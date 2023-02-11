@@ -36,8 +36,9 @@ void sysTickCallback(void)
 		// DETECT_MONITOR(USART3_valid_rx);
 		// DETECT_MONITOR(UART4_rx);
 		DETECT_MONITOR(UART5_rx);
-
 	}
-		
+	
+	Global::print.PrintAllTasksFps();
+
 	Global::system_monitor.SysTickTime++;
 }

@@ -23,7 +23,7 @@
 
 
 
-class LED {
+class Led {
 public:
     void SetPink(bool state);
     void TogglePink(void);

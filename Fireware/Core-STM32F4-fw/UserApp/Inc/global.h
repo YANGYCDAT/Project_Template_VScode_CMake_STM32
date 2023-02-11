@@ -2,11 +2,13 @@
 
 #include "system_monitor.h"
 #include "led.h"
+#include "print.h"
 
 class Global {
 public:
-    static SYSTEM_MONITOR system_monitor;
-    static LED led;
+    static SystemMonitor system_monitor;
+    static Led led;
+    static Print print;
 };
 
 

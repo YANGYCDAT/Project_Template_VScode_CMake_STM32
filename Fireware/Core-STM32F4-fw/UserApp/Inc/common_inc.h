@@ -5,11 +5,15 @@
 extern "C" {
 #endif
 /*---------------------------- C Scope ---------------------------*/
+#include "stdint-gcc.h"
+#include "stdio.h"
 #include "stm32f4xx.h"
 #include "FreeRTOS.h"
 #include "task.h"
-#include "stdint-gcc.h"
+#include "main.h"
 #include "user_main.h"
+#include "usart.h"
+
 
 #ifdef __cplusplus
 }
@@ -21,7 +25,9 @@ extern "C" {
 #include "global.h"
 #include "system_monitor.h"
 #include "led.h"
+#include "communication.h"
 #include "user_task.h"
+#include "print.h"
 
 
 

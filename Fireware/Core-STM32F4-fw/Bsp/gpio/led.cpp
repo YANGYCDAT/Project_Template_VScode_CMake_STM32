@@ -3,7 +3,7 @@
 
 
 
-void LED::SetPink(bool state) {
+void Led::SetPink(bool state) {
     if (state) {
         LED_PINK_ON();
     } else {
@@ -12,6 +12,6 @@ void LED::SetPink(bool state) {
 }
 
 
-void LED::TogglePink(void) {
+void Led::TogglePink(void) {
     LED_PINK_TOGGLE();
 }

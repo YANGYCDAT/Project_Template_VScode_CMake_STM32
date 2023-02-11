@@ -52,7 +52,6 @@ void MX_UART5_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN UART5_Init 2 */
-
   /* USER CODE END UART5_Init 2 */
 
 }

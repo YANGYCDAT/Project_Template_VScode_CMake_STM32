@@ -23,6 +23,7 @@
 #include "usart.h"
 #include "gpio.h"
 #include "user_main.h"
+#include "retarget.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -92,7 +93,8 @@ int main(void)
   MX_TIM5_Init();
   MX_UART5_Init();
   /* USER CODE BEGIN 2 */
-  userMain();
+  RetargetInit(&huart5); // using UART5 for debug input/output 
+  UserMain();
   /* USER CODE END 2 */
   
   /* Infinite loop */

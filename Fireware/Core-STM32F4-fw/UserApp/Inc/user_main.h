@@ -6,7 +6,7 @@
 extern "C" {
 #endif
 
-void userMain();
+void UserMain();
 
 #ifdef __cplusplus
 }

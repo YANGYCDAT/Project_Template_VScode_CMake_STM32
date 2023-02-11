@@ -38,6 +38,6 @@ typedef struct
 
 	// 系统时间
 	unsigned int SysTickTime;
-} SYSTEM_MONITOR;
+} SystemMonitor;
 
 #endif
