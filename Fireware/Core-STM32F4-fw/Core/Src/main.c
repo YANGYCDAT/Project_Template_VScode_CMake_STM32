@@ -22,7 +22,7 @@
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
-#include "common_inc.h"
+#include "user_main.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -92,7 +92,7 @@ int main(void)
   MX_TIM5_Init();
   MX_UART5_Init();
   /* USER CODE BEGIN 2 */
-  UserMain();
+  userMain();
   /* USER CODE END 2 */
   
   /* Infinite loop */

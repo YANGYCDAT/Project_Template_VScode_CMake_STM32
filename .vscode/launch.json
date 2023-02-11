@@ -1,0 +1,33 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "cwd": "${workspaceRoot}",
+            "executable": "./bin/executable.elf",
+            "name": "Debug with OpenOCD",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "configFiles": [],
+            "searchDir": [],
+            "runToEntryPoint": "main",
+            "showDevDebugOutput": "none"
+        },
+
+        {
+            "name": "Cortex Debug",
+            "cwd": "${workspaceRoot}",
+            "executable": "./build/Core-STM32F4-fw.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "configFiles": [
+                "interface/jlink-swd.cfg",
+                "target/stm32f4x.cfg"
+            ],
+            "armToolchainPath": "/opt/gcc-arm-none-eabi-10.3-2021.10/bin",
+            "svdFile": "./Fireware/Core-STM32F4-fw/STM32F40x.svd",
+            "preLaunchTask": "Build"
+        }
+    ]
+}

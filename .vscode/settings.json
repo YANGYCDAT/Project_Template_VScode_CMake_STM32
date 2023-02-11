@@ -1,0 +1,13 @@
+{
+    "cmake.sourceDirectory": "${workspaceFolder}/Fireware/Core-STM32F4-fw",
+    "files.associations": {
+        "stm32f4xx_hal.h": "c",
+        "stm32f4xx_hal_conf.h": "c",
+        "main.h": "c",
+        "common_inc.h": "c",
+        "global.h": "c",
+        "gpio.h": "c",
+        "user_main.h": "c"
+    },
+    "commentTranslate.targetLanguage": "en"
+}
