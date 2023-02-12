@@ -22,12 +22,11 @@
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
-#include "user_main.h"
-#include "retarget.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "user_main.h"
+#include "retarget.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -92,11 +91,11 @@ int main(void)
   MX_DMA_Init();
   MX_TIM5_Init();
   MX_UART5_Init();
+  MX_UART4_Init();
   /* USER CODE BEGIN 2 */
-  RetargetInit(&huart5); // using UART5 for debug input/output 
   UserMain();
   /* USER CODE END 2 */
-  
+
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)

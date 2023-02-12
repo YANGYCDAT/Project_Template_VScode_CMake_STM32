@@ -3,4 +3,4 @@
 
 SystemMonitor Global::system_monitor;
 Led Global::led;
-Print Global::print;
+Vofa Global::vofa;

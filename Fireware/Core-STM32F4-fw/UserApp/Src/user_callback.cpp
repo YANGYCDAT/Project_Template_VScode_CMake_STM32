@@ -24,21 +24,14 @@ void sysTickCallback(void)
 	if(Global::system_monitor.SysTickTime % 1000 == 0) // Calculate the rate of monitored items 
 	{
 		/** Main Task Monitor */
-		// DETECT_MONITOR(SystemMonitorTask);
-		// DETECT_MONITOR(StateDataSendTask);
-		// DETECT_MONITOR(CommunicateTask);
+		DETECT_MONITOR(DataVisualTask);
 		DETECT_MONITOR(LEDTask);
-		// DETECT_MONITOR(NavigateCommunicateTask);
 		
 		/** IT Monitor */
-		// DETECT_MONITOR(USART2_rx);
-		// DETECT_MONITOR(USART3_rx);
-		// DETECT_MONITOR(USART3_valid_rx);
-		// DETECT_MONITOR(UART4_rx);
+
+		DETECT_MONITOR(UART4_rx);
 		DETECT_MONITOR(UART5_rx);
 	}
-	
-	Global::print.PrintAllTasksFps();
 
 	Global::system_monitor.SysTickTime++;
 }
