@@ -17,15 +17,20 @@ typedef struct
 	DECLARE_MONITOR(SystemMonitorTask);
 	DECLARE_MONITOR(DataVisualTask);
 	DECLARE_MONITOR(LEDTask);
+	DECLARE_MONITOR(RobotControlTask);
 
 	// 任务执行时间监视
 	DECLARE_EXECUTE_TIME(SystemMonitorTask);
 	DECLARE_EXECUTE_TIME(DataVisualTask);
 	DECLARE_EXECUTE_TIME(LEDTask);
+	DECLARE_EXECUTE_TIME(RobotControlTask);
 
 	// 中断监视
+	DECLARE_MONITOR(UART3_rx);
 	DECLARE_MONITOR(UART4_rx);
     DECLARE_MONITOR(UART5_rx);
+	DECLARE_MONITOR(CAN1_rx);
+	DECLARE_MONITOR(CAN2_rx);
 
 	// 系统时间
 	unsigned int SysTickTime;

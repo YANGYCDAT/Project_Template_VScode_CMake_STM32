@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "can.h"
 #include "dma.h"
 #include "tim.h"
 #include "usart.h"
@@ -92,7 +93,11 @@ int main(void)
   MX_TIM5_Init();
   MX_UART5_Init();
   MX_UART4_Init();
+  MX_CAN1_Init();
+  MX_CAN2_Init();
+  MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
+  // User main code
   UserMain();
   /* USER CODE END 2 */
 

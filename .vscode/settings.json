@@ -10,7 +10,9 @@
         "user_main.h": "c",
         "time.h": "c",
         "errno.h": "c",
-        "retarget.h": "c"
+        "retarget.h": "c",
+        "cmath": "cpp",
+        "can_interface.h": "c"
     },
     "commentTranslate.targetLanguage": "en"
 }

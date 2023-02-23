@@ -53,18 +53,25 @@ include_directories(
         Core/Inc
         Bsp/gpio
         Bsp/communication
+        Bsp/encoder
         Drivers/STM32F4xx_HAL_Driver/Inc
         Drivers/STM32F4xx_HAL_Driver/Inc/Legacy
         Drivers/CMSIS/Device/ST/STM32F4xx/Include
         Drivers/CMSIS/Include
         Middlewares/FreeRTOS/include
         Middlewares/FreeRTOS/portable/GCC/ARM_CM4F
-        UserApp/Inc
+        UserApp/protocol
+        UserApp/config
+        UserApp
+        Robot/actuators
+        Robot/instances
+        Robot/algorithms
 )
 
 add_definitions(-DUSE_HAL_DRIVER -DSTM32F4 -DSTM32F4xx -DSTM32F407xx)
 
 file(GLOB_RECURSE SOURCES
+        "Robot/*.*"
         "UserApp/*.*"
         "startup/*.*"
         "Drivers/*.*"

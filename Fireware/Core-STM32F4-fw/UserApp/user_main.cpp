@@ -12,6 +12,10 @@ void UserMain() {
     // Initialize communnication
     InitCommunication();
 
+    // Initialize sentry robot parameters
+    Global::sentry.Init();
+
+
     // Launch all tasks
     LaunchAllTasks();
 }

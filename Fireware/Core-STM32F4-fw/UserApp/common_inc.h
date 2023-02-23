@@ -6,13 +6,16 @@ extern "C" {
 #endif
 /*---------------------------- C Scope ---------------------------*/
 #include "stdint-gcc.h"
+#include "cstring"
 #include "stdio.h"
+#include "math.h"
 #include "stm32f4xx.h"
 #include "FreeRTOS.h"
 #include "task.h"
 #include "main.h"
 #include "user_main.h"
 #include "usart.h"
+#include "can.h"
 
 
 #ifdef __cplusplus
@@ -22,11 +25,16 @@ extern "C" {
 
 
 /*---------------------------- C++ Scope ---------------------------*/
-#include "global.h"
+#include "user_global.h"
 #include "system_monitor.h"
 #include "led.h"
 #include "communication.h"
 #include "user_task.h"
+#include "uart_protocol.h"
+#include "can_protocol.h"
+#include "sentry_robot.h"
+#include "can_interface.h"
+#include "uart_interface.h"
 
 
 

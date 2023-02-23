@@ -3,9 +3,22 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**",
+                "${workspaceFolder}/Fireware/Core-STM32F4-fw/Core/Inc",
+                "${workspaceFolder}/Fireware/Core-STM32F4-fw/Bsp/gpio",
+                "${workspaceFolder}/Fireware/Core-STM32F4-fw/Bsp/communication",
+                "${workspaceFolder}/Fireware/Core-STM32F4-fw/Bsp/encoder",
+                "${workspaceFolder}/Fireware/Core-STM32F4-fw/Drivers/STM32F4xx_HAL_Driver/Inc",
+                "${workspaceFolder}/Fireware/Core-STM32F4-fw/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy",
+                "${workspaceFolder}/Fireware/Core-STM32F4-fw/Drivers/CMSIS/Device/ST/STM32F4xx/Include",
+                "${workspaceFolder}/Fireware/Core-STM32F4-fw/Drivers/CMSIS/Include",
                 "${workspaceFolder}/Fireware/Core-STM32F4-fw/Middlewares/FreeRTOS/include",
-                "${workspaceFolder}/Fireware/Core-STM32F4-fw/Middlewares/FreeRTOS/portable/GCC/ARM_CM4F"
+                "${workspaceFolder}/Fireware/Core-STM32F4-fw/Middlewares/FreeRTOS/portable/GCC/ARM_CM4F",
+                "${workspaceFolder}/Fireware/Core-STM32F4-fw/UserApp/protocol",
+                "${workspaceFolder}/Fireware/Core-STM32F4-fw//UserApp/config",
+                "${workspaceFolder}/Fireware/Core-STM32F4-fw/UserApp",
+                "${workspaceFolder}/Fireware/Core-STM32F4-fw/Robot/actuators",
+                "${workspaceFolder}/Fireware/Core-STM32F4-fw/Robot/instances",
+                "${workspaceFolder}/Fireware/Core-STM32F4-fw/Robot/algorithms"
             ],
             "defines": [
                 "USE_HAL_DRIVER",
