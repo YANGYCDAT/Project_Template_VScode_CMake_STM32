@@ -13,6 +13,9 @@
  */
 void InitCommunication(void)
 {
+    // Using UART3 for navigation communication
+    Global::navigation.SetUartHandle(&huart3);
+    
     // Using UART5 for debug input/output
     RetargetInit(&huart5); 
 
@@ -20,10 +23,12 @@ void InitCommunication(void)
     Global::vofa.SetUartHandle(&huart4); 
 
     // Specify UART DMA  receive buffer
+    HAL_UART_Receive_DMA(&huart3, uart3_dma_rec_buffer, UART3_DMA_REC_BUFFER_SIZE); 
     HAL_UART_Receive_DMA(&huart4, uart4_dma_rec_buffer, UART4_DMA_REC_BUFFER_SIZE); 
     HAL_UART_Receive_DMA(&huart5, uart5_dma_rec_buffer, UART5_DMA_REC_BUFFER_SIZE); 
     
     // Enable UART IDLE Interruption
+    __HAL_UART_ENABLE_IT(&huart3, UART_IT_IDLE);
     __HAL_UART_ENABLE_IT(&huart4, UART_IT_IDLE);         
     __HAL_UART_ENABLE_IT(&huart5, UART_IT_IDLE);
 

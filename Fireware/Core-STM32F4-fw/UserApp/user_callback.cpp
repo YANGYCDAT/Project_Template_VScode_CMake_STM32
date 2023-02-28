@@ -29,9 +29,10 @@ void User_SysTickCallback(void)
 	// Calculate the rate of monitored items
 	if(Global::system_monitor.SysTickTime % 1000 == 0) {
 		// Main Task Monitor
-		DETECT_MONITOR(DataVisualTask);
+		DETECT_MONITOR(DataVisualizeTask);
 		DETECT_MONITOR(LEDTask);
 		DETECT_MONITOR(RobotControlTask);
+		DETECT_MONITOR(DataCommunicateTask);
 		
 		// IT Monitor
 		DETECT_MONITOR(UART3_rx);
@@ -59,8 +60,10 @@ void User_UART_RX_Callback(UART_HandleTypeDef *huart)
 		__HAL_UART_CLEAR_IDLEFLAG(huart);                     
 
 		// Decode UART datas
-		if (huart->Instance == UART4) {
-			UART_NavigationDataDecode(uart4_dma_rec_buffer); // Decode navigation data
+		if (huart->Instance == USART3) {
+			UART_NavigationDataDecode(uart3_dma_rec_buffer); // Decode navigation data
+			Global::system_monitor.UART3_rx_cnt++;
+		}else if (huart->Instance == UART4) {
 			Global::system_monitor.UART4_rx_cnt++;
 		} else if (huart->Instance == UART5) {
 			UART_AimAssitDataDecode(uart5_dma_rec_buffer); // Decode aim assit data

@@ -15,15 +15,17 @@ typedef struct
 {		
 	// 任务执行频率监视
 	DECLARE_MONITOR(SystemMonitorTask);
-	DECLARE_MONITOR(DataVisualTask);
+	DECLARE_MONITOR(DataVisualizeTask);
 	DECLARE_MONITOR(LEDTask);
 	DECLARE_MONITOR(RobotControlTask);
+	DECLARE_MONITOR(DataCommunicateTask);
 
 	// 任务执行时间监视
 	DECLARE_EXECUTE_TIME(SystemMonitorTask);
-	DECLARE_EXECUTE_TIME(DataVisualTask);
+	DECLARE_EXECUTE_TIME(DataVisualizeTask);
 	DECLARE_EXECUTE_TIME(LEDTask);
 	DECLARE_EXECUTE_TIME(RobotControlTask);
+	DECLARE_EXECUTE_TIME(DataCommunicateTask);
 
 	// 中断监视
 	DECLARE_MONITOR(UART3_rx);

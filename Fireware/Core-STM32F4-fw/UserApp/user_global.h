@@ -3,6 +3,7 @@
 #include "system_monitor.h"
 #include "led.h"
 #include "vofa.h"
+#include "navigation.h"
 #include "sentry_robot.h"
 #include "can_interface.h"
 
@@ -14,6 +15,7 @@ public:
     static Led led;
     static Vofa vofa;
     static SentryRobot sentry;
+    static Navigation navigation;
 };
 
 

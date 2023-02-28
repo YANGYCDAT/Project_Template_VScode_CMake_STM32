@@ -54,6 +54,8 @@ include_directories(
         Bsp/gpio
         Bsp/communication
         Bsp/encoder
+        Bsp/vofa
+        Bsp/navigation
         Drivers/STM32F4xx_HAL_Driver/Inc
         Drivers/STM32F4xx_HAL_Driver/Inc/Legacy
         Drivers/CMSIS/Device/ST/STM32F4xx/Include

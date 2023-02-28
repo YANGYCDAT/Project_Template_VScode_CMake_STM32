@@ -9,12 +9,11 @@
  * @param NULL
  */
 void UserMain() {
-    // Initialize communnication
+    // Initialize BSP
     InitCommunication();
 
     // Initialize sentry robot parameters
     Global::sentry.Init();
-
 
     // Launch all tasks
     LaunchAllTasks();
