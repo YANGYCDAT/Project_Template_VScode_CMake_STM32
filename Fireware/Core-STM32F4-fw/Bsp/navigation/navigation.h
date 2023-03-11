@@ -2,8 +2,9 @@
 
 #include "usart.h"
 
-#define NAVIGATION_DATA_SEND_FLOAT_NUM 2
-#define NAVIGATION_DATA_RECEIVE_FLOAT_NUM 2
+#define NAVIGATION_DATA_SEND_FLOAT_NUM          ((uint8_t)8)
+#define NAVIGATION_DATA_RECEIVE_FLOAT_NUM       ((uint8_t)8)
+#define NAVIGATION_DATA_RECEIVE_SIZE            ((uint8_t)6 + 4 * NAVIGATION_DATA_RECEIVE_FLOAT_NUM)
 
 
 class Navigation {

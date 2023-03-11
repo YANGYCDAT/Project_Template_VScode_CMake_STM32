@@ -34,20 +34,21 @@ add_compile_options(-ffunction-sections -fdata-sections -fno-common -fmessage-le
 
 # uncomment to mitigate c++17 absolute addresses warnings
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-register")
-
-if ("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
-    message(STATUS "Maximum optimization for speed")
-    add_compile_options(-Ofast)
-elseif ("${CMAKE_BUILD_TYPE}" STREQUAL "RelWithDebInfo")
-    message(STATUS "Maximum optimization for speed, debug info included")
-    add_compile_options(-Ofast -g)
-elseif ("${CMAKE_BUILD_TYPE}" STREQUAL "MinSizeRel")
-    message(STATUS "Maximum optimization for size")
-    add_compile_options(-Os)
-else ()
-    message(STATUS "Minimal optimization, debug info included")
-    add_compile_options(-Og -g)
-endif ()
+set(CMAKE_BUILD_TYPE Debug)
+# set(CMAKE_BUILD_TYPE Release)
+# if ("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
+#     message(STATUS "Maximum optimization for speed")
+#     add_compile_options(-Ofast)
+# elseif ("${CMAKE_BUILD_TYPE}" STREQUAL "RelWithDebInfo")
+#     message(STATUS "Maximum optimization for speed, debug info included")
+#     add_compile_options(-Ofast -g)
+# elseif ("${CMAKE_BUILD_TYPE}" STREQUAL "MinSizeRel")
+#     message(STATUS "Maximum optimization for size")
+#     add_compile_options(-Os)
+# else ()
+#     message(STATUS "Minimal optimization, debug info included")
+#     add_compile_options(-Og -g)
+# endif ()
 
 include_directories(
         Core/Inc
@@ -56,6 +57,7 @@ include_directories(
         Bsp/encoder
         Bsp/vofa
         Bsp/navigation
+        Bsp/dji_rc
         Drivers/STM32F4xx_HAL_Driver/Inc
         Drivers/STM32F4xx_HAL_Driver/Inc/Legacy
         Drivers/CMSIS/Device/ST/STM32F4xx/Include

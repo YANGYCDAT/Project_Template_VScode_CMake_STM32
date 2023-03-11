@@ -33,22 +33,22 @@ void SentryRobot::Init(void)
 */
 void SentryRobot::InitAllActuators(void)
 {
-    chassis_motor[CHASSIS_FLA_MOTOR] = new M3508(&hcan1, CHASSIS_FLA_MOTOR_ID,  CHASSIS_MOTOR_REDUCTION_RATIO);
+    chassis_motor[CHASSIS_FLA_MOTOR] = new M3508(&hcan2, CHASSIS_FLA_MOTOR_ID,  CHASSIS_MOTOR_REDUCTION_RATIO);
     chassis_motor[CHASSIS_FLA_MOTOR]->m_angle_pid = new Pid(15, 0.00, 0, 10, 20000, 20000, 5000, 2000);
     chassis_motor[CHASSIS_FLA_MOTOR]->m_speed_pid = new Pid(400, 0.00, 0, 10, 20000, 20000, 5000, 2000);
     chassis_motor[CHASSIS_FLA_MOTOR]->m_encoder = new AbsEncoder(CHASSIS_FLA_ENCODER_ZERO_VALUE, ENCODER_RESOLUTION);  
     
-    chassis_motor[CHASSIS_FRA_MOTOR] = new M3508(&hcan1, CHASSIS_FRA_MOTOR_ID, CHASSIS_MOTOR_REDUCTION_RATIO);
-    chassis_motor[CHASSIS_FRA_MOTOR]->m_angle_pid = new Pid(30, 0.01, 0, 10, 20000, 20000, 5000, 2000);
-    chassis_motor[CHASSIS_FRA_MOTOR]->m_speed_pid = new Pid(100, 0.01, 0, 10, 20000, 20000, 5000, 2000);
+    chassis_motor[CHASSIS_FRA_MOTOR] = new M3508(&hcan2, CHASSIS_FRA_MOTOR_ID, CHASSIS_MOTOR_REDUCTION_RATIO);
+    chassis_motor[CHASSIS_FRA_MOTOR]->m_angle_pid = new Pid(30, 0.00, 0, 10, 20000, 20000, 5000, 2000);
+    chassis_motor[CHASSIS_FRA_MOTOR]->m_speed_pid = new Pid(100, 0.00, 0, 10, 20000, 20000, 5000, 2000);
     chassis_motor[CHASSIS_FRA_MOTOR]->m_encoder = new AbsEncoder(CHASSIS_FRA_ENCODER_ZERO_VALUE, ENCODER_RESOLUTION);   
     
-    chassis_motor[CHASSIS_BLA_MOTOR] = new M3508(&hcan1, CHASSIS_BLA_MOTOR_ID, CHASSIS_MOTOR_REDUCTION_RATIO);
+    chassis_motor[CHASSIS_BLA_MOTOR] = new M3508(&hcan2, CHASSIS_BLA_MOTOR_ID, CHASSIS_MOTOR_REDUCTION_RATIO);
     chassis_motor[CHASSIS_BLA_MOTOR]->m_angle_pid = new Pid(30, 0.01, 0, 10, 20000, 20000, 5000, 2000);
     chassis_motor[CHASSIS_BLA_MOTOR]->m_speed_pid = new Pid(100, 0.01, 0, 10, 20000, 20000, 5000, 2000);
     chassis_motor[CHASSIS_BLA_MOTOR]->m_encoder = new AbsEncoder(CHASSIS_BLA_ENCODER_ZERO_VALUE, ENCODER_RESOLUTION);
         
-    chassis_motor[CHASSIS_BRA_MOTOR] = new M3508(&hcan1, CHASSIS_BRA_MOTOR_ID, CHASSIS_MOTOR_REDUCTION_RATIO);
+    chassis_motor[CHASSIS_BRA_MOTOR] = new M3508(&hcan2, CHASSIS_BRA_MOTOR_ID, CHASSIS_MOTOR_REDUCTION_RATIO);
     chassis_motor[CHASSIS_BRA_MOTOR]->m_angle_pid = new Pid(30, 0.01, 0, 10, 20000, 20000, 5000, 2000);
     chassis_motor[CHASSIS_BRA_MOTOR]->m_speed_pid = new Pid(100, 0.01, 0, 10, 20000, 20000, 5000, 2000);
     chassis_motor[CHASSIS_BRA_MOTOR]->m_encoder = new AbsEncoder(CHASSIS_BRA_ENCODER_ZERO_VALUE, ENCODER_RESOLUTION);
@@ -106,13 +106,18 @@ void SentryRobot::InitAllSensors(void)
 */
 void SentryRobot::MoveChassis(void)
 {
-    chassis_motor[CHASSIS_FLA_MOTOR]->m_angle_target = chassis_angle_target;
+    if (chassis_mode != CHASSIS_SAFE) {
+        chassis_motor[CHASSIS_FLA_MOTOR]->m_angle_target = chassis_angle_target;
+        chassis_motor[CHASSIS_FRA_MOTOR]->m_angle_target = chassis_angle_target;
+        chassis_motor[CHASSIS_BLA_MOTOR]->m_angle_target = chassis_angle_target;
+        chassis_motor[CHASSIS_BRA_MOTOR]->m_angle_target = chassis_angle_target;
 
-    for (int i = 0; i < 4; i++) {
-        chassis_motor[i]->AngleControl();
-    }
-    for (int i = 4; i < CHASSIS_MOTOR_NUM; i++) {
-        chassis_motor[i]->SpeedControl();
+        for (int i = 0; i < 4; i++) {
+            chassis_motor[i]->AngleControl();
+        }
+        for (int i = 4; i < CHASSIS_MOTOR_NUM; i++) {
+            // chassis_motor[i]->SpeedControl();
+        }
     }
 }
 
@@ -125,26 +130,11 @@ void SentryRobot::MoveChassis(void)
 */
 void SentryRobot::MoveGimbal(void)
 {
-    gimbal_motor[GIMBAL_YAW_MOTOR]->m_angle_target = gimbal_yaw_angle_target;
+    if (gimbal_mode != GIMBAL_SAFE) {
+        gimbal_motor[GIMBAL_YAW_MOTOR]->m_angle_target = gimbal_yaw_angle_target;
 
-    for (int i = 0; i < GIMBAL_MOTOR_NUM; i++) {
-        gimbal_motor[i]->AngleControl();
+        for (int i = 0; i < GIMBAL_MOTOR_NUM; i++) {
+            // gimbal_motor[i]->AngleControl();
+        }
     }
-}
-
-
-
-/**
- *@brief update the state of the sentry robot
- * 
- *@param 
-*/
-void SentryRobot::StateUpdate(void)
-{
-    // Update current chassis state
-    chassis_speed_current = chassis_motor[CHASSIS_FLA_MOTOR]->m_speed_current;
-
-    // Update current gimbal state
-    gimbal_yaw_speed_current = gimbal_motor[GIMBAL_YAW_MOTOR]->m_speed_current;
-    gimbal_yaw_angle_current = gimbal_motor[GIMBAL_YAW_MOTOR]->m_angle_current;
 }

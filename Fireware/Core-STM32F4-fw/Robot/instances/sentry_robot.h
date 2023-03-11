@@ -28,8 +28,8 @@
 // Motor ID(same type motors should have different ID)
 #define GIMBAL_YAW_MOTOR_ID ( (uint8_t) 5 )
 #define GIMBAL_PITCH_MOTOR_ID ( (uint8_t) 2 )
-#define CHASSIS_FLA_MOTOR_ID ( (uint8_t) 1 )
-#define CHASSIS_FRA_MOTOR_ID ( (uint8_t) 2 )
+#define CHASSIS_FRA_MOTOR_ID ( (uint8_t) 1 )
+#define CHASSIS_FLA_MOTOR_ID ( (uint8_t) 2 )
 #define CHASSIS_BLA_MOTOR_ID ( (uint8_t) 3 )
 #define CHASSIS_BRA_MOTOR_ID ( (uint8_t) 4 )
 #define CHASSIS_FLL_MOTOR_ID ( (uint8_t) 5 )
@@ -43,13 +43,42 @@
 
 // Robot Initial State
 #define CHASSIS_INIT_SPEED ( (float) 0.0f )
-#define CHASSIS_INIT_ANGLE ( (float) 10.0f )
+#define CHASSIS_INIT_ANGLE ( (float) 0.0f )
+#define CHASSIS_CALIBRATE_ENCODE_RANGE ( (uint32_t) 200 )
 #define GIMBAL_YAW_INIT_ANGLE ( (float) 20.0f )
+
+// Robot mannal control sensitivity
+#define CHASSIS_SPEED_MANNAL_CONTROL_SENSITIVITY ( (float) 100.0f )
+#define CHASSIS_ANGLE_MANNAL_CONTROL_SENSITIVITY ( (float) 100.0f )
+#define GIMBAL_PITCH_ANGLE_MANNAL_CONTROL_SENSITIVITY ( (float) 100.0f )
+#define GIMBAL_YAW_ANGLE_MANNAL_CONTROL_SENSITIVITY ( (float) 100.0f )
 
 
 
 class SentryRobot {
 public:
+    enum ChassisMode {
+        CHASSIS_SAFE = 0,
+        CHASSIS_CALIBRATE,
+        CHASSIS_MANNAL,
+        CHASSIS_AUTO
+    };
+    ChassisMode chassis_mode;
+
+    enum GimbalMode {
+        GIMBAL_SAFE = 0,
+        GIMBAL_MANNAL,
+        GIMBAL_AUTO
+    };
+    GimbalMode gimbal_mode;
+
+    enum ShootMode {
+        SHOOT_SAFE = 0,
+        SHOOT_MANNAL,
+        SHOOT_AUTO
+    };
+    ShootMode shoot_mode;
+
     enum ChassisMotor {
         CHASSIS_FLA_MOTOR = 0,
         CHASSIS_FRA_MOTOR,
@@ -82,9 +111,30 @@ public:
 
     void Init(void);
 
-    void StateUpdate(void);
     void MoveChassis(void);
     void MoveGimbal(void);
+    inline void SetChassisMode(ChassisMode mode) {chassis_mode = mode;};
+    inline void SetGimbalMode(GimbalMode mode) {gimbal_mode = mode;};
+    inline void SetShootMode(ShootMode mode) {shoot_mode = mode;};
+    inline void SetChassisSpeedTarget(float target) {chassis_speed_target = target;};
+    inline void SetChassisAngleTarget(float target) {chassis_angle_target = target;};
+    inline void SetGimbalPitchSpeedTarget(float target) {gimbal_pitch_speed_target = target;};
+    inline void SetGimbalPitchAngleTarget(float target) {gimbal_pitch_angle_target = target;};
+    inline void SetGimbalYawSpeedTarget(float target) {gimbal_yaw_speed_target = target;};
+    inline void SetGimbalYawAngleTarget(float target) {gimbal_yaw_angle_target = target;};
+    inline void StepChassisSpeedTarget(float step) {chassis_speed_target += step;};
+    inline void StepChassisAngleTarget(float step) {chassis_angle_target += step;};
+    inline void StepGimbalPitchSpeedTarget(float step) {gimbal_pitch_speed_target += step;};
+    inline void StepGimbalPitchAngleTarget(float step) {gimbal_pitch_angle_target += step;};
+    inline void StepGimbalYawSpeedTarget(float step) {gimbal_yaw_speed_target += step;};
+    inline void StepGimbalYawAngleTarget(float step) {gimbal_yaw_angle_target += step;};
+    inline void SetChassisSpeedCurrent(float current) {chassis_speed_current = current;};
+    inline void SetChassisAngleCurrent(float current) {chassis_angle_current = current;};
+    inline void SetGimbalPitchAngleCurrent(float current) {gimbal_pitch_angle_current = current;};
+    inline void SetGimbalPitchSpeedCurrent(float current) {gimbal_pitch_speed_current = current;};
+    inline void SetGimbalYawAngleCurrent(float current) {gimbal_yaw_angle_current = current;};
+    inline void SetGimbalYawSpeedCurrent(float current) {gimbal_yaw_speed_current = current;};
+
 
     SentryRobot(){};
     ~SentryRobot(){};

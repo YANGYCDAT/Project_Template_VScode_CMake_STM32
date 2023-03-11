@@ -1,17 +1,6 @@
 #include "vofa.h"
 
 
-/**
- * @brief Set the UART for Vofa
- *
- * @param UART_HandleTypeDef *huart: UART handle
- */
-void Vofa::SetUartHandle(UART_HandleTypeDef *huart)
-{
-    m_huart = huart; 
-}
-
-
 
 /**
  * @brief Send data to Vofa+

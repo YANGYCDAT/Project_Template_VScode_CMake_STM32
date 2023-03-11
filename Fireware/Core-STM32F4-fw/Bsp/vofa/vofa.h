@@ -19,7 +19,7 @@ public:
     Vofa(){};
     Vofa(UART_HandleTypeDef *huart) { m_huart = huart; };
 
-    void SetUartHandle(UART_HandleTypeDef *huart);
+    void SetUartHandle(UART_HandleTypeDef *huart) { m_huart = huart; };
     void SendData(void);
 
 private:
