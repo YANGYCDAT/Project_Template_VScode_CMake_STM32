@@ -19,9 +19,6 @@ void SentryRobot::Init(void)
 
     // Initial all Sensors
     InitAllSensors();
-
-
-    printf("Init sentry robot successfully !\n");
 }
 
 
@@ -33,40 +30,40 @@ void SentryRobot::Init(void)
 */
 void SentryRobot::InitAllActuators(void)
 {
-    chassis_motor[CHASSIS_FLA_MOTOR] = new M3508(&hcan2, CHASSIS_FLA_MOTOR_ID,  CHASSIS_MOTOR_REDUCTION_RATIO);
-    chassis_motor[CHASSIS_FLA_MOTOR]->m_angle_pid = new Pid(15, 0.00, 0, 10, 20000, 20000, 5000, 2000);
-    chassis_motor[CHASSIS_FLA_MOTOR]->m_speed_pid = new Pid(400, 0.00, 0, 10, 20000, 20000, 5000, 2000);
+    chassis_motor[CHASSIS_FLA_MOTOR] = new M3508(&hcan2, CHASSIS_FLA_MOTOR_ID,  CHASSIS_STEER_MOTOR_REDUCTION_RATIO);
+    chassis_motor[CHASSIS_FLA_MOTOR]->m_angle_pid = new Pid(20, 0.00, 0, 10, 20000, 20000, 5000, 2000);
+    chassis_motor[CHASSIS_FLA_MOTOR]->m_speed_pid = new Pid(50, 0.00, 0, 10, 20000, 20000, 5000, 2000);
     chassis_motor[CHASSIS_FLA_MOTOR]->m_encoder = new AbsEncoder(CHASSIS_FLA_ENCODER_ZERO_VALUE, ENCODER_RESOLUTION);  
     
-    chassis_motor[CHASSIS_FRA_MOTOR] = new M3508(&hcan2, CHASSIS_FRA_MOTOR_ID, CHASSIS_MOTOR_REDUCTION_RATIO);
-    chassis_motor[CHASSIS_FRA_MOTOR]->m_angle_pid = new Pid(30, 0.00, 0, 10, 20000, 20000, 5000, 2000);
-    chassis_motor[CHASSIS_FRA_MOTOR]->m_speed_pid = new Pid(100, 0.00, 0, 10, 20000, 20000, 5000, 2000);
+    chassis_motor[CHASSIS_FRA_MOTOR] = new M3508(&hcan2, CHASSIS_FRA_MOTOR_ID, CHASSIS_STEER_MOTOR_REDUCTION_RATIO);
+    chassis_motor[CHASSIS_FRA_MOTOR]->m_angle_pid = new Pid(20, 0.00, 0, 10, 20000, 20000, 5000, 2000);
+    chassis_motor[CHASSIS_FRA_MOTOR]->m_speed_pid = new Pid(50, 0.00, 0, 10, 20000, 20000, 5000, 2000);
     chassis_motor[CHASSIS_FRA_MOTOR]->m_encoder = new AbsEncoder(CHASSIS_FRA_ENCODER_ZERO_VALUE, ENCODER_RESOLUTION);   
     
-    chassis_motor[CHASSIS_BLA_MOTOR] = new M3508(&hcan2, CHASSIS_BLA_MOTOR_ID, CHASSIS_MOTOR_REDUCTION_RATIO);
-    chassis_motor[CHASSIS_BLA_MOTOR]->m_angle_pid = new Pid(30, 0.01, 0, 10, 20000, 20000, 5000, 2000);
-    chassis_motor[CHASSIS_BLA_MOTOR]->m_speed_pid = new Pid(100, 0.01, 0, 10, 20000, 20000, 5000, 2000);
+    chassis_motor[CHASSIS_BLA_MOTOR] = new M3508(&hcan2, CHASSIS_BLA_MOTOR_ID, CHASSIS_STEER_MOTOR_REDUCTION_RATIO);
+    chassis_motor[CHASSIS_BLA_MOTOR]->m_angle_pid = new Pid(20, 0.00, 0, 10, 20000, 20000, 5000, 2000);
+    chassis_motor[CHASSIS_BLA_MOTOR]->m_speed_pid = new Pid(50, 0.00, 0, 10, 20000, 20000, 5000, 2000);
     chassis_motor[CHASSIS_BLA_MOTOR]->m_encoder = new AbsEncoder(CHASSIS_BLA_ENCODER_ZERO_VALUE, ENCODER_RESOLUTION);
         
-    chassis_motor[CHASSIS_BRA_MOTOR] = new M3508(&hcan2, CHASSIS_BRA_MOTOR_ID, CHASSIS_MOTOR_REDUCTION_RATIO);
-    chassis_motor[CHASSIS_BRA_MOTOR]->m_angle_pid = new Pid(30, 0.01, 0, 10, 20000, 20000, 5000, 2000);
-    chassis_motor[CHASSIS_BRA_MOTOR]->m_speed_pid = new Pid(100, 0.01, 0, 10, 20000, 20000, 5000, 2000);
+    chassis_motor[CHASSIS_BRA_MOTOR] = new M3508(&hcan2, CHASSIS_BRA_MOTOR_ID, CHASSIS_STEER_MOTOR_REDUCTION_RATIO);
+    chassis_motor[CHASSIS_BRA_MOTOR]->m_angle_pid = new Pid(20, 0.00, 0, 10, 20000, 20000, 5000, 2000);
+    chassis_motor[CHASSIS_BRA_MOTOR]->m_speed_pid = new Pid(50, 0.00, 0, 10, 20000, 20000, 5000, 2000);
     chassis_motor[CHASSIS_BRA_MOTOR]->m_encoder = new AbsEncoder(CHASSIS_BRA_ENCODER_ZERO_VALUE, ENCODER_RESOLUTION);
-
-    chassis_motor[CHASSIS_FLL_MOTOR] = new M3508(&hcan1, CHASSIS_FLL_MOTOR_ID, CHASSIS_MOTOR_REDUCTION_RATIO);
-    chassis_motor[CHASSIS_FLL_MOTOR]->m_speed_pid = new Pid(30, 0.01, 0, 10, 20000, 20000, 5000, 2000);
-    chassis_motor[CHASSIS_FLL_MOTOR]->m_encoder = new AbsEncoder(CHASSIS_FLL_ENCODER_ZERO_VALUE, ENCODER_RESOLUTION);   
     
-    chassis_motor[CHASSIS_FRL_MOTOR] = new M3508(&hcan1, CHASSIS_FRL_MOTOR_ID, CHASSIS_MOTOR_REDUCTION_RATIO);
-    chassis_motor[CHASSIS_FRL_MOTOR]->m_speed_pid = new Pid(30, 0.01, 0, 10, 20000, 20000, 5000, 2000);
+    chassis_motor[CHASSIS_FRL_MOTOR] = new M3508(&hcan1, CHASSIS_FRL_MOTOR_ID, CHASSIS_SPEED_MOTOR_REDUCTION_RATIO);
+    chassis_motor[CHASSIS_FRL_MOTOR]->m_speed_pid = new Pid(120, 0.00, 0, 10, 20000, 20000, 5000, 2000);
     chassis_motor[CHASSIS_FRL_MOTOR]->m_encoder = new AbsEncoder(CHASSIS_FRL_ENCODER_ZERO_VALUE, ENCODER_RESOLUTION);   
     
-    chassis_motor[CHASSIS_BLL_MOTOR] = new M3508(&hcan1, CHASSIS_BLL_MOTOR_ID, CHASSIS_MOTOR_REDUCTION_RATIO);
-    chassis_motor[CHASSIS_BLL_MOTOR]->m_speed_pid = new Pid(30, 0.01, 0, 10, 20000, 20000, 5000, 2000);
+    chassis_motor[CHASSIS_FLL_MOTOR] = new M3508(&hcan1, CHASSIS_FLL_MOTOR_ID, CHASSIS_SPEED_MOTOR_REDUCTION_RATIO);
+    chassis_motor[CHASSIS_FLL_MOTOR]->m_speed_pid = new Pid(120, 0.00, 0, 10, 20000, 20000, 5000, 2000);
+    chassis_motor[CHASSIS_FLL_MOTOR]->m_encoder = new AbsEncoder(CHASSIS_FLL_ENCODER_ZERO_VALUE, ENCODER_RESOLUTION);   
+    
+    chassis_motor[CHASSIS_BLL_MOTOR] = new M3508(&hcan1, CHASSIS_BLL_MOTOR_ID, CHASSIS_SPEED_MOTOR_REDUCTION_RATIO);
+    chassis_motor[CHASSIS_BLL_MOTOR]->m_speed_pid = new Pid(120, 0.00, 0, 10, 20000, 20000, 5000, 2000);
     chassis_motor[CHASSIS_BLL_MOTOR]->m_encoder = new AbsEncoder(CHASSIS_BLL_ENCODER_ZERO_VALUE, ENCODER_RESOLUTION);   
     
-    chassis_motor[CHASSIS_BRL_MOTOR] = new M3508(&hcan1, CHASSIS_BRL_MOTOR_ID, CHASSIS_MOTOR_REDUCTION_RATIO);
-    chassis_motor[CHASSIS_BRL_MOTOR]->m_speed_pid = new Pid(30, 0.01, 0, 10, 20000, 20000, 5000, 2000);
+    chassis_motor[CHASSIS_BRL_MOTOR] = new M3508(&hcan1, CHASSIS_BRL_MOTOR_ID, CHASSIS_SPEED_MOTOR_REDUCTION_RATIO);
+    chassis_motor[CHASSIS_BRL_MOTOR]->m_speed_pid = new Pid(120, 0.00, 0, 10, 20000, 20000, 5000, 2000);
     chassis_motor[CHASSIS_BRL_MOTOR]->m_encoder = new AbsEncoder(CHASSIS_BRL_ENCODER_ZERO_VALUE, ENCODER_RESOLUTION);   
     
     gimbal_motor[GIMBAL_YAW_MOTOR] = new GM6020(&hcan2, GIMBAL_YAW_MOTOR_ID, GIMBAL_MOTOR_REDUCTION_RATIO);
@@ -106,17 +103,16 @@ void SentryRobot::InitAllSensors(void)
 */
 void SentryRobot::MoveChassis(void)
 {
-    if (chassis_mode != CHASSIS_SAFE) {
-        chassis_motor[CHASSIS_FLA_MOTOR]->m_angle_target = chassis_angle_target;
-        chassis_motor[CHASSIS_FRA_MOTOR]->m_angle_target = chassis_angle_target;
-        chassis_motor[CHASSIS_BLA_MOTOR]->m_angle_target = chassis_angle_target;
-        chassis_motor[CHASSIS_BRA_MOTOR]->m_angle_target = chassis_angle_target;
-
+    if (chassis_mode == CHASSIS_MANNAL || chassis_mode == CHASSIS_AUTO) {
         for (int i = 0; i < 4; i++) {
             chassis_motor[i]->AngleControl();
         }
         for (int i = 4; i < CHASSIS_MOTOR_NUM; i++) {
-            // chassis_motor[i]->SpeedControl();
+            chassis_motor[i]->SpeedControl();
+        }
+    } else {
+        for (int i = 0; i < CHASSIS_MOTOR_NUM; i++) {
+            chassis_motor[i]->DisableControl();
         }
     }
 }
@@ -131,10 +127,42 @@ void SentryRobot::MoveChassis(void)
 void SentryRobot::MoveGimbal(void)
 {
     if (gimbal_mode != GIMBAL_SAFE) {
-        gimbal_motor[GIMBAL_YAW_MOTOR]->m_angle_target = gimbal_yaw_angle_target;
-
         for (int i = 0; i < GIMBAL_MOTOR_NUM; i++) {
             // gimbal_motor[i]->AngleControl();
         }
+    } else {
+        for (int i = 0; i < GIMBAL_MOTOR_NUM; i++) {
+            // gimbal_motor[i]->DisableControl();
+        }
     }
+}
+
+
+
+/**
+ *@brief Set the sentry robot chassis line wheel speed to the specified speed
+ * 
+ *@param 
+*/
+void SentryRobot::SetChassisSpeedTarget(float fll_motor, float bll_motor, float frl_motor, float brl_motor)
+{
+    chassis_motor[CHASSIS_FLL_MOTOR]->m_speed_target = fll_motor;
+    chassis_motor[CHASSIS_BLL_MOTOR]->m_speed_target = bll_motor;
+    chassis_motor[CHASSIS_FRL_MOTOR]->m_speed_target = frl_motor;
+    chassis_motor[CHASSIS_BRL_MOTOR]->m_speed_target = brl_motor;
+}
+
+
+
+/**
+ *@brief Set the sentry robot chassis steer angle to the specified angle
+ * 
+ *@param 
+*/
+void SentryRobot::SetChassisAngleTarget(float fla_steer, float bla_steer, float fra_steer, float bra_steer)
+{
+    chassis_motor[CHASSIS_FLA_MOTOR]->m_angle_target = fla_steer;
+    chassis_motor[CHASSIS_BLA_MOTOR]->m_angle_target = bla_steer;
+    chassis_motor[CHASSIS_FRA_MOTOR]->m_angle_target = fra_steer;
+    chassis_motor[CHASSIS_BRA_MOTOR]->m_angle_target = bra_steer;
 }

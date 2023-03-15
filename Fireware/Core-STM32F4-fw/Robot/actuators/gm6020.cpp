@@ -76,3 +76,24 @@ void GM6020::AngleControl(void)
 
     CanSendMessage(context);
 }
+
+
+
+/**
+ * @brief disable the motor control
+ *
+ * @param 
+ */
+void GM6020::DisableControl(void) {
+    CANContext* context = GetCANContext(m_hcan);
+
+    // Send the current to motor
+    if (m_id >= 1 && m_id <= 4) {
+        context->tx_header.StdId = 0x200;
+    } else if (m_id >= 5 && m_id <= 8) {
+        context->tx_header.StdId = 0x1FF;
+    }
+    context->tx_data[(m_id - 1) * 2] = 0;
+    context->tx_data[(m_id - 1) * 2 + 1] = 0;
+    CanSendMessage(context);
+}

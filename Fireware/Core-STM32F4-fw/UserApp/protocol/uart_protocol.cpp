@@ -11,7 +11,8 @@
 void UART_NavigationDataDecode(u8* buffer)
 {
 	if(	buffer[0]==0x55 && buffer[1]==0x00) {
-		memcpy(&(Global::navigation.m_data_receive_frame), (u8*)buffer, sizeof(Global::navigation.m_data_receive_frame));	
+		memcpy(&(Global::navigation.m_data_receive_frame), (u8*)buffer, 
+		sizeof(Global::navigation.m_data_receive_frame));	
     }	
 }
 
@@ -56,4 +57,5 @@ void UART_DJIRCDataDecode(unsigned char* buffer)
 	
 	// right switch
 	Global::dji_rc.channel.SW_R = ((buffer[5] >> 4) & 0x0003);
+
 }

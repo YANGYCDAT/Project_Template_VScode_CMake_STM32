@@ -406,7 +406,6 @@ void UART5_IRQHandler(void)
 {
   /* USER CODE BEGIN UART5_IRQn 0 */
   User_UART_RX_Callback(&huart5);
-  // return;
   /* USER CODE END UART5_IRQn 0 */
   HAL_UART_IRQHandler(&huart5);
   /* USER CODE BEGIN UART5_IRQn 1 */
@@ -478,7 +477,6 @@ void USART6_IRQHandler(void)
 {
   /* USER CODE BEGIN USART6_IRQn 0 */
   User_UART_RX_Callback(&huart6);
-  return;
   /* USER CODE END USART6_IRQn 0 */
   HAL_UART_IRQHandler(&huart6);
   /* USER CODE BEGIN USART6_IRQn 1 */

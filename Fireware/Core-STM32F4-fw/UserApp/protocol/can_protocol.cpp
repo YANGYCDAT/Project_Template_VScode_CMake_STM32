@@ -16,24 +16,33 @@ void CAN_DataDecode(CANContext* context)
 {
     if (context->handle->Instance == CAN1) {
         switch(context->rx_header.StdId){
-            // case (0x200 + CHASSIS_FLA_MOTOR_ID):	
-            //     Global::sentry.chassis_motor[Global::sentry.CHASSIS_FLA_MOTOR]->
-            //     AngleUpdate(GetEncoderNumber(&(context->rx_data[0])));
-            //     Global::sentry.chassis_motor[Global::sentry.CHASSIS_FLA_MOTOR]->
-            //     SpeedUpdate(GetMotorSpeed(&(context->rx_data[0])));
-            //     Global::sentry.chassis_motor[Global::sentry.CHASSIS_FLA_MOTOR]->m_state_update_times++;
-            //     break;
-
-            // case (0x204 + GIMBAL_YAW_MOTOR_ID): 
-            //     Global::sentry.gimbal_motor[Global::sentry.GIMBAL_YAW_MOTOR]->
-            //     AngleUpdate(GetEncoderNumber(&(context->rx_data[0])));
-            //     Global::sentry.gimbal_motor[Global::sentry.GIMBAL_YAW_MOTOR]->
-            //     SpeedUpdate(GetMotorSpeed(&(context->rx_data[0])));
-            //     Global::sentry.gimbal_motor[Global::sentry.GIMBAL_YAW_MOTOR]->m_state_update_times++;
-            //     break;
-
-            case 0x205: 
-
+            case (0x200 + CHASSIS_FRL_MOTOR_ID):	
+                Global::sentry.chassis_motor[Global::sentry.CHASSIS_FRL_MOTOR]->
+                AngleUpdate(GetEncoderNumber(&(context->rx_data[0])));
+                Global::sentry.chassis_motor[Global::sentry.CHASSIS_FRL_MOTOR]->
+                SpeedUpdate(GetMotorSpeed(&(context->rx_data[0])));
+                Global::sentry.chassis_motor[Global::sentry.CHASSIS_FRL_MOTOR]->m_state_update_times++;
+                break;              
+            case (0x200 + CHASSIS_FLL_MOTOR_ID):	
+                Global::sentry.chassis_motor[Global::sentry.CHASSIS_FLL_MOTOR]->
+                AngleUpdate(GetEncoderNumber(&(context->rx_data[0])));
+                Global::sentry.chassis_motor[Global::sentry.CHASSIS_FLL_MOTOR]->
+                SpeedUpdate(GetMotorSpeed(&(context->rx_data[0])));
+                Global::sentry.chassis_motor[Global::sentry.CHASSIS_FLL_MOTOR]->m_state_update_times++;
+                break;
+            case (0x200 + CHASSIS_BLL_MOTOR_ID):	
+                Global::sentry.chassis_motor[Global::sentry.CHASSIS_BLL_MOTOR]->
+                AngleUpdate(GetEncoderNumber(&(context->rx_data[0])));
+                Global::sentry.chassis_motor[Global::sentry.CHASSIS_BLL_MOTOR]->
+                SpeedUpdate(GetMotorSpeed(&(context->rx_data[0])));
+                Global::sentry.chassis_motor[Global::sentry.CHASSIS_BLL_MOTOR]->m_state_update_times++;
+                break;
+            case (0x200 + CHASSIS_BRL_MOTOR_ID):	
+                Global::sentry.chassis_motor[Global::sentry.CHASSIS_BRL_MOTOR]->
+                AngleUpdate(GetEncoderNumber(&(context->rx_data[0])));
+                Global::sentry.chassis_motor[Global::sentry.CHASSIS_BRL_MOTOR]->
+                SpeedUpdate(GetMotorSpeed(&(context->rx_data[0])));
+                Global::sentry.chassis_motor[Global::sentry.CHASSIS_BRL_MOTOR]->m_state_update_times++;
                 break;
         }
     } else if (context->handle->Instance == CAN2) {
@@ -52,7 +61,20 @@ void CAN_DataDecode(CANContext* context)
                 SpeedUpdate(GetMotorSpeed(&(context->rx_data[0])));
                 Global::sentry.chassis_motor[Global::sentry.CHASSIS_FLA_MOTOR]->m_state_update_times++;
                 break;
-
+            case (0x200 + CHASSIS_BLA_MOTOR_ID):	
+                Global::sentry.chassis_motor[Global::sentry.CHASSIS_BLA_MOTOR]->
+                AngleUpdate(GetEncoderNumber(&(context->rx_data[0])));
+                Global::sentry.chassis_motor[Global::sentry.CHASSIS_BLA_MOTOR]->
+                SpeedUpdate(GetMotorSpeed(&(context->rx_data[0])));
+                Global::sentry.chassis_motor[Global::sentry.CHASSIS_BLA_MOTOR]->m_state_update_times++;
+                break;
+            case (0x200 + CHASSIS_BRA_MOTOR_ID):	
+                Global::sentry.chassis_motor[Global::sentry.CHASSIS_BRA_MOTOR]->
+                AngleUpdate(GetEncoderNumber(&(context->rx_data[0])));
+                Global::sentry.chassis_motor[Global::sentry.CHASSIS_BRA_MOTOR]->
+                SpeedUpdate(GetMotorSpeed(&(context->rx_data[0])));
+                Global::sentry.chassis_motor[Global::sentry.CHASSIS_BRA_MOTOR]->m_state_update_times++;
+                break;
         }
     }
 }

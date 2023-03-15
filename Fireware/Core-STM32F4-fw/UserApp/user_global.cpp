@@ -11,7 +11,6 @@ DJIRC Global::dji_rc;
 Global::ControlMode Global::control_mode;
 
 
-
 /**
  *@brief update system control mode
  * 
@@ -35,13 +34,13 @@ void Global::ControlModeUpdate(void) {
     && Global::dji_rc.channel.SW_R == RC_SW_UP) {
         Global::control_mode = Global::AUTO_CGS;
     } else if (Global::dji_rc.channel.SW_L == RC_SW_MID 
-    && Global::dji_rc.channel.SW_R == RC_SW_DOWN) {
+    && Global::dji_rc.channel.SW_R == RC_SW_MID) {
         Global::control_mode = Global::RC_CG;
     } else if (Global::dji_rc.channel.SW_L == RC_SW_UP 
     && Global::dji_rc.channel.SW_R == RC_SW_DOWN) {
         Global::control_mode = Global::AUTO_G_RC_C;
     } else if (Global::dji_rc.channel.SW_L == RC_SW_MID 
-    && Global::dji_rc.channel.SW_R == RC_SW_MID) {
+    && Global::dji_rc.channel.SW_R == RC_SW_DOWN) {
         Global::control_mode = Global::CALIBRATE;
     } else {
         Global::control_mode = Global::SAFE;
@@ -119,23 +118,120 @@ void Global::RobotStatesUpdate(void)
  *@param 
 */
 void Global::RobotTargetsUpdate(void) {
+#ifdef CHASSIS_STEER_DRIVING_MODE
+    static float chassis_steer_pre = 0;
+    static float chassis_steer_sum = 0;
+    float steer_angle_step = 0;
+    float chassis_speed = 0;
+    float chassis_steer = 0;
+
+    if (Global::sentry.chassis_mode == SentryRobot::CHASSIS_MANNAL) {
+        if (abs(Global::dji_rc.channel.Ch3 - RC_CH_VALUE_OFFSET) > RC_CH_VALUE_DEAD) {
+            chassis_speed = ((float)(Global::dji_rc.channel.Ch3 - RC_CH_VALUE_OFFSET)
+            / RC_CH_VALUE_RANGE * CHASSIS_LINE_SPEED_MAX / CHASSIS_WHEEL_RADIUS);
+        }
+        if (abs(Global::dji_rc.channel.Ch2 - RC_CH_VALUE_OFFSET) > RC_CH_VALUE_DEAD) {
+            chassis_steer = -((float)(Global::dji_rc.channel.Ch2 - RC_CH_VALUE_OFFSET)
+            / RC_CH_VALUE_RANGE * CHASSIS_STEER_ANGLE_MAX);
+        }
+        if (chassis_speed < 0 && chassis_steer >= 0) {
+            chassis_steer = 180 - chassis_steer;
+        } else if (chassis_speed < 0 && chassis_steer < 0) {
+            chassis_steer = -180 - chassis_steer;
+        }
+    } else if (Global::sentry.chassis_mode == SentryRobot::CHASSIS_AUTO) {
+        chassis_steer = Global::navigation.m_data_receive_frame.m_data[0];
+        chassis_speed = Global::navigation.m_data_receive_frame.m_data[1];
+        chassis_steer = chassis_steer * RADIAN2DEGREE_VALUE;
+
+        // speed max limit
+        if (chassis_speed > CHASSIS_LINE_SPEED_MAX) {
+            chassis_speed = CHASSIS_LINE_SPEED_MAX;
+        } 
+        chassis_speed = chassis_speed / CHASSIS_WHEEL_RADIUS;
+    } else if (Global::sentry.chassis_mode == SentryRobot::CHASSIS_CALIBRATE) {
+        for (int i = 0; i < CHASSIS_MOTOR_NUM; i++) {
+            Global::sentry.chassis_motor[i]->m_encoder->m_sum_value 
+            = Global::sentry.chassis_motor[i]->m_encoder->m_raw_value;
+
+            Global::sentry.chassis_motor[i]->m_encoder->m_zero_value 
+            = Global::sentry.chassis_motor[i]->m_encoder->m_raw_value;
+        }
+        chassis_steer_pre = 0;
+        chassis_steer_sum = 0;
+    } else {
+        chassis_steer_pre = 0;
+        chassis_steer_sum = 0;
+    }
+
+    // angle max limit
+    steer_angle_step = chassis_steer - chassis_steer_pre;
+    chassis_steer_pre = chassis_steer;
+    if (steer_angle_step > CHASSIS_STEER_ANGLE_MAX) {
+        steer_angle_step = steer_angle_step - 4 * CHASSIS_STEER_ANGLE_MAX;
+    } else if (steer_angle_step < -CHASSIS_STEER_ANGLE_MAX) {
+        steer_angle_step = steer_angle_step + 4 * CHASSIS_STEER_ANGLE_MAX;
+    }
+    chassis_steer_sum += steer_angle_step;
+	// Global::vofa.m_data_send_frame.m_data[14] = chassis_steer_sum;
+    // Global::vofa.m_data_send_frame.m_data[13] = steer_angle_step;
+    // Global::vofa.m_data_send_frame.m_data[12] = chassis_steer;
+    // Global::vofa.m_data_send_frame.m_data[11] = chassis_steer_pre;
+    Global::sentry.SetChassisSpeedTarget(chassis_speed, chassis_speed, -chassis_speed, -chassis_speed);
+    Global::sentry.SetChassisAngleTarget(chassis_steer_sum, chassis_steer_sum, chassis_steer_sum, chassis_steer_sum);
+
+
+#elif defined CHASSIS_DIFFERENTIAL_DRIVING_MODE
     if (Global::sentry.chassis_mode == SentryRobot::CHASSIS_MANNAL) {
         // contorlled by the remote controller
-        float chassis_speed = ((float)(Global::dji_rc.channel.Ch3 - RC_CH_VALUE_OFFSET)
-        / RC_CH_VALUE_RANGE * CHASSIS_SPEED_MAX);
-        float chassis_angle = ((float)(Global::dji_rc.channel.Ch2 - RC_CH_VALUE_OFFSET)
-        / RC_CH_VALUE_RANGE * 10);
-        Global::sentry.SetChassisAngleTarget(chassis_angle);
-        Global::sentry.SetChassisSpeedTarget(chassis_speed);
+        float chassis_line_speed = 0;
+        float chassis_angle_speed = 0;
+        if (abs(Global::dji_rc.channel.Ch3 - RC_CH_VALUE_OFFSET) > RC_CH_VALUE_DEAD) {
+            chassis_line_speed = ((float)(Global::dji_rc.channel.Ch3 - RC_CH_VALUE_OFFSET)
+            / RC_CH_VALUE_RANGE * CHASSIS_LINE_SPEED_MAX / CHASSIS_WHEEL_RADIUS);
+        }
+        if (abs(Global::dji_rc.channel.Ch2 - RC_CH_VALUE_OFFSET) > RC_CH_VALUE_DEAD) {
+            chassis_angle_speed = -((float)(Global::dji_rc.channel.Ch2 - RC_CH_VALUE_OFFSET)
+            / RC_CH_VALUE_RANGE * CHASSIS_ANGLE_SPEED_MAX);
+        }
+        
+        float left_speed = chassis_line_speed - CHASSIS_HALF_WHEEL_TREAD * chassis_angle_speed;
+        float right_speed = chassis_line_speed + CHASSIS_HALF_WHEEL_TREAD * chassis_angle_speed;
+
+        Global::sentry.SetChassisSpeedTarget(left_speed, left_speed, -right_speed, -right_speed);
+        Global::sentry.SetChassisAngleTarget(0, 0, 0, 0);
     } else if (Global::sentry.chassis_mode == SentryRobot::CHASSIS_AUTO) {
-        
+        float left_speed = Global::navigation.m_data_receive_frame.m_data[0];
+        float right_speed = Global::navigation.m_data_receive_frame.m_data[1];
+        if (left_speed > CHASSIS_LINE_SPEED_MAX) {
+            left_speed = CHASSIS_LINE_SPEED_MAX;
+        } else if (left_speed < -CHASSIS_LINE_SPEED_MAX) {
+            left_speed = -CHASSIS_LINE_SPEED_MAX;
+        } 
+        if (left_speed > CHASSIS_LINE_SPEED_MAX) {
+            right_speed = CHASSIS_LINE_SPEED_MAX;
+        } else if (left_speed < -CHASSIS_LINE_SPEED_MAX) {
+            right_speed = -CHASSIS_LINE_SPEED_MAX;
+        }
+        left_speed = left_speed / CHASSIS_WHEEL_RADIUS;
+        right_speed = right_speed / CHASSIS_WHEEL_RADIUS;
+
+        Global::sentry.SetChassisSpeedTarget(left_speed, left_speed, -right_speed, -right_speed);
+        Global::sentry.SetChassisAngleTarget(0, 0, 0, 0);
     } else if (Global::sentry.chassis_mode == SentryRobot::CHASSIS_CALIBRATE) {
-        
+        for (int i = 0; i < CHASSIS_MOTOR_NUM; i++) {
+            Global::sentry.chassis_motor[i]->m_encoder->m_sum_value 
+            = Global::sentry.chassis_motor[i]->m_encoder->m_raw_value;
+
+            Global::sentry.chassis_motor[i]->m_encoder->m_zero_value 
+            = Global::sentry.chassis_motor[i]->m_encoder->m_raw_value;
+        }
     } else {
-        // set the same value of the feedback to the target
-        float chassis_speed = Global::sentry.chassis_speed_current;
-        float chassis_angle = Global::sentry.chassis_angle_current;
-        Global::sentry.SetChassisAngleTarget(chassis_angle);
-        Global::sentry.SetChassisSpeedTarget(chassis_speed);
+        Global::sentry.SetChassisAngleTarget(0, 0, 0, 0);
+        Global::sentry.SetChassisSpeedTarget(0, 0, 0, 0);
     }
+
+#elif defined CHASSIS_COMMOM_DRIVING_MODE
+    
+#endif
 }

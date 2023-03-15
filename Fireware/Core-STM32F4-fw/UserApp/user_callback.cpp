@@ -80,22 +80,27 @@ void User_UART_RX_Callback(UART_HandleTypeDef *huart)
 				Global::system_monitor.UART1_rx_cnt++;
 			}
 		} else if (huart->Instance == USART2) {
+			// printf("\n  USART2 %d \n", huart->hdmarx->Instance->NDTR);
+			__HAL_DMA_SET_COUNTER(huart->hdmarx, UART3_DMA_REC_BUFFER_SIZE);
 			Global::system_monitor.UART2_rx_cnt++;
 		} else if (huart->Instance == USART3) {
-			if ((UART3_DMA_REC_BUFFER_SIZE - huart->hdmarx->Instance->NDTR) == NAVIGATION_DATA_RECEIVE_SIZE) {
-				// Decode navigation data
-				UART_NavigationDataDecode(uart3_dma_rec_buffer);
-				__HAL_DMA_SET_COUNTER(huart->hdmarx, UART3_DMA_REC_BUFFER_SIZE);
-				Global::system_monitor.UART3_rx_cnt++;
-			}
+			// printf("\n  UART3 %d \n", huart->hdmarx->Instance->NDTR);
+			__HAL_DMA_SET_COUNTER(huart->hdmarx, UART3_DMA_REC_BUFFER_SIZE);
 		} else if (huart->Instance == UART4) {
+			// printf("\n  UART4 %d \n", huart->hdmarx->Instance->NDTR);
+			__HAL_DMA_SET_COUNTER(huart->hdmarx, UART4_DMA_REC_BUFFER_SIZE);	
 			Global::system_monitor.UART4_rx_cnt++;
 		} else if (huart->Instance == UART5) {
-			// Decode aim assit data
-			UART_AimAssitDataDecode(uart5_dma_rec_buffer); 
-			Global::system_monitor.UART5_rx_cnt++;
+			if ((UART5_DMA_REC_BUFFER_SIZE - huart->hdmarx->Instance->NDTR) 
+			== NAVIGATION_DATA_RECEIVE_SIZE) {
+				// Decode navigation data
+				UART_NavigationDataDecode(uart5_dma_rec_buffer);
+				__HAL_DMA_SET_COUNTER(huart->hdmarx, UART5_DMA_REC_BUFFER_SIZE);
+				Global::system_monitor.UART5_rx_cnt++;			
+			}
 		} else if (huart->Instance == USART6) {
-
+			// Decode aim assit data 
+			__HAL_DMA_SET_COUNTER(huart->hdmarx, UART6_DMA_REC_BUFFER_SIZE);
 			Global::system_monitor.UART6_rx_cnt++;
 		}
 

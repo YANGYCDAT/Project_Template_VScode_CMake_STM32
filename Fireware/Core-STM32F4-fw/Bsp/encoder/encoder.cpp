@@ -14,11 +14,12 @@
 **/
 void AbsEncoder::EncodeValueUpdate(int value)
 {
-	static bool first_in = true;
-	if (first_in) {
+	static bool flag = false;
+	if (!flag) {
 		m_raw_value = value;
+		m_pre_raw_value = value;
 		m_sum_value = value;
-		first_in = false;
+		flag = true;
 	} else {
 		m_pre_raw_value = m_raw_value;
 		m_raw_value = value;

@@ -8,12 +8,8 @@
 #include "sentry_robot.h"
 #include "can_interface.h"
 
-
-
-#define HALF_CIRCLE_VALUE ( (float)(180) )
-#define CHASSIS_SPEED_MAX ( (float)(10) )
-
-
+// #define CHASSIS_DEBUG
+#define NAVIGATION_DEBUG
 
 class Global {
 public:
@@ -37,7 +33,6 @@ public:
         AUTO_G_RC_C
     };
     static ControlMode control_mode; 
-
 
     static void ControlModeUpdate(void);
     static void RobotStatesUpdate(void);

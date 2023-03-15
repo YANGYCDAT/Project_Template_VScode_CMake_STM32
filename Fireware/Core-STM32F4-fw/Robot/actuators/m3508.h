@@ -29,6 +29,7 @@ public:
     void AngleUpdate(float value);
     void SpeedControl(void);
     void AngleControl(void);
+    void DisableControl(void);
 
     M3508(CAN_HandleTypeDef* hcan, uint32_t id, uint32_t ration) { 
         m_hcan = hcan;

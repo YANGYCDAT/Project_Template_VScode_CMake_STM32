@@ -32,7 +32,7 @@ void M3508::AngleUpdate(float value)
 /**
  * @brief Update the motor angle
  *
- * @param float speed: the target motor speed
+ * @param 
  */
 void M3508::SpeedControl(void)
 {
@@ -57,7 +57,7 @@ void M3508::SpeedControl(void)
 /**
  * @brief Update the motor angle
  *
- * @param float angle: the target motor angle
+ * @param 
  */
 void M3508::AngleControl(void)
 {
@@ -74,5 +74,26 @@ void M3508::AngleControl(void)
     }
     context->tx_data[(m_id - 1) * 2] = (uint8_t)((int16_t)m_speed_pid->m_output >> 8);
     context->tx_data[(m_id - 1) * 2 + 1] = (uint8_t)((int16_t)m_speed_pid->m_output);
+    CanSendMessage(context);
+}
+
+
+
+/**
+ * @brief disable the motor control
+ *
+ * @param 
+ */
+void M3508::DisableControl(void) {
+    CANContext* context = GetCANContext(m_hcan);
+
+    // Send the current to motor
+    if (m_id >= 1 && m_id <= 4) {
+        context->tx_header.StdId = 0x200;
+    } else if (m_id >= 5 && m_id <= 8) {
+        context->tx_header.StdId = 0x1FF;
+    }
+    context->tx_data[(m_id - 1) * 2] = 0;
+    context->tx_data[(m_id - 1) * 2 + 1] = 0;
     CanSendMessage(context);
 }

@@ -30,7 +30,7 @@ public:
 #define RC_CH_VALUE_MIN             ((uint16_t)364)
 #define RC_CH_VALUE_OFFSET          ((uint16_t)1024)
 #define RC_CH_VALUE_MAX             ((uint16_t)1684)
-#define RC_CH_VALUE_DEAD            ((uint16_t)20)
+#define RC_CH_VALUE_DEAD            ((uint16_t)0)
 #define RC_CH_VALUE_RANGE           ((uint16_t)660)
 
 #define RC_SW_UP                    ((uint8_t)1)

@@ -12,11 +12,11 @@
  */
 void InitCommunication(void)
 {
-    // Using UART3 for navigation communication
-    Global::navigation.SetUartHandle(&huart3);
+    // Using UART5 for navigation communication
+    Global::navigation.SetUartHandle(&huart5);
     
-    // Using UART5 for debug input/output
-    RetargetInit(&huart5); 
+    // Using UART2 for debug input/output
+    // RetargetInit(&huart2); 
 
     // Using UART4 for sending visual data to Vofa+
     Global::vofa.SetUartHandle(&huart4);
@@ -29,8 +29,8 @@ void InitCommunication(void)
     HAL_UART_Receive_DMA(&huart2, uart2_dma_rec_buffer, UART2_DMA_REC_BUFFER_SIZE);
     HAL_UART_Receive_DMA(&huart3, uart3_dma_rec_buffer, UART3_DMA_REC_BUFFER_SIZE); 
     HAL_UART_Receive_DMA(&huart4, uart4_dma_rec_buffer, UART4_DMA_REC_BUFFER_SIZE); 
-    HAL_UART_Receive_DMA(&huart5, uart5_dma_rec_buffer, UART5_DMA_REC_BUFFER_SIZE); 
-    HAL_UART_Receive_DMA(&huart6, uart6_dma_rec_buffer, UART6_DMA_REC_BUFFER_SIZE); 
+    UART_Receive_DMA_No_IT(&huart5, uart5_dma_rec_buffer, UART5_DMA_REC_BUFFER_SIZE); 
+    UART_Receive_DMA_No_IT(&huart6, uart6_dma_rec_buffer, UART6_DMA_REC_BUFFER_SIZE); 
     
     // Enable UART IDLE Interruption
     __HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE);
@@ -53,8 +53,6 @@ void InitCommunication(void)
     HAL_CAN_Start(&hcan2); 
 	HAL_CAN_ActivateNotification(&hcan1,CAN_IT_RX_FIFO0_MSG_PENDING);
 	HAL_CAN_ActivateNotification(&hcan2,CAN_IT_RX_FIFO0_MSG_PENDING);
-
-    printf("Init communication successfully !\n");
 }
 
 
