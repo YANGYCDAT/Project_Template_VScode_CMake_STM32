@@ -48,6 +48,8 @@ Pid::Pid(float kp, float ki, float kd, float error_threshold,
     m_output_p_max = output_p_max;
     m_output_i_max = output_i_max;
     m_output_d_max = output_d_max;
+
+	m_error_sum = 0;
 }
 
 

@@ -62,6 +62,7 @@
 #ifdef CHASSIS_STEER_DRIVING_MODE
 #define CHASSIS_STEER_ANGLE_MAX                             ( (float)(90) )
 #define CHASSIS_LINE_SPEED_MAX                              ( (float)(10) )
+#define CHASSIS_STEER_ANGLE_SENSITIVITY                     ( (float)(0.1) )
 #endif
 
 #ifdef CHASSIS_DIFFERENTIAL_DRIVING_MODE

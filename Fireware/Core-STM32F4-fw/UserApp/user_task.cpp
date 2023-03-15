@@ -56,15 +56,19 @@ void DataVisualize_Task(void) {
 		// the ID of mdata should be less than 15
 		#ifdef CHASSIS_DEBUG
 		Global::vofa.m_data_send_frame.m_data[0] = Global::system_monitor.CAN1_rx_fps;
-		Global::vofa.m_data_send_frame.m_data[1] = Global::system_monitor.CAN2_rx_fps;
+		// Global::vofa.m_data_send_frame.m_data[1] = Global::system_monitor.CAN2_rx_fps;
 		// Global::vofa.m_data_send_frame.m_data[2] = Global::sentry.chassis_motor[Global::sentry.CHASSIS_FRA_MOTOR]->m_encoder->m_raw_value;
 		// Global::vofa.m_data_send_frame.m_data[3] = Global::sentry.chassis_motor[Global::sentry.CHASSIS_FLA_MOTOR]->m_encoder->m_raw_value;
 		// Global::vofa.m_data_send_frame.m_data[4] = Global::sentry.chassis_motor[Global::sentry.CHASSIS_BLA_MOTOR]->m_encoder->m_raw_value;
 		// Global::vofa.m_data_send_frame.m_data[5] = Global::sentry.chassis_motor[Global::sentry.CHASSIS_BRA_MOTOR]->m_encoder->m_raw_value;
-		// Global::vofa.m_data_send_frame.m_data[6] = Global::sentry.chassis_motor[Global::sentry.CHASSIS_FRA_MOTOR]->m_angle_current;
-		// Global::vofa.m_data_send_frame.m_data[7] = Global::sentry.chassis_motor[Global::sentry.CHASSIS_FLA_MOTOR]->m_angle_current;
-		// Global::vofa.m_data_send_frame.m_data[8] = Global::sentry.chassis_motor[Global::sentry.CHASSIS_BLA_MOTOR]->m_angle_current;
-		// Global::vofa.m_data_send_frame.m_data[9] = Global::sentry.chassis_motor[Global::sentry.CHASSIS_BRA_MOTOR]->m_angle_current;
+		// Global::vofa.m_data_send_frame.m_data[2] = Global::sentry.chassis_motor[Global::sentry.CHASSIS_FRA_MOTOR]->m_angle_target;
+		// Global::vofa.m_data_send_frame.m_data[3] = Global::sentry.chassis_motor[Global::sentry.CHASSIS_FLA_MOTOR]->m_angle_target;
+		// Global::vofa.m_data_send_frame.m_data[4] = Global::sentry.chassis_motor[Global::sentry.CHASSIS_BLA_MOTOR]->m_angle_target;
+		// Global::vofa.m_data_send_frame.m_data[5] = Global::sentry.chassis_motor[Global::sentry.CHASSIS_BRA_MOTOR]->m_angle_target;
+		Global::vofa.m_data_send_frame.m_data[6] = Global::sentry.chassis_motor[Global::sentry.CHASSIS_FRA_MOTOR]->m_angle_current;
+		Global::vofa.m_data_send_frame.m_data[7] = Global::sentry.chassis_motor[Global::sentry.CHASSIS_FLA_MOTOR]->m_angle_current;
+		Global::vofa.m_data_send_frame.m_data[8] = Global::sentry.chassis_motor[Global::sentry.CHASSIS_BLA_MOTOR]->m_angle_current;
+		Global::vofa.m_data_send_frame.m_data[9] = Global::sentry.chassis_motor[Global::sentry.CHASSIS_BRA_MOTOR]->m_angle_current;
 		// Global::vofa.m_data_send_frame.m_data[2] = Global::sentry.chassis_motor[Global::sentry.CHASSIS_FLL_MOTOR]->m_speed_current;				
 		// Global::vofa.m_data_send_frame.m_data[3] = Global::sentry.chassis_motor[Global::sentry.CHASSIS_BLL_MOTOR]->m_speed_current;
 		// Global::vofa.m_data_send_frame.m_data[4] = Global::sentry.chassis_motor[Global::sentry.CHASSIS_BRL_MOTOR]->m_speed_current;	
@@ -73,11 +77,17 @@ void DataVisualize_Task(void) {
 		// Global::vofa.m_data_send_frame.m_data[7] = Global::sentry.chassis_motor[Global::sentry.CHASSIS_BLL_MOTOR]->m_speed_target;
 		// Global::vofa.m_data_send_frame.m_data[8] = Global::sentry.chassis_motor[Global::sentry.CHASSIS_BRL_MOTOR]->m_speed_target;	
 		// Global::vofa.m_data_send_frame.m_data[9] = Global::sentry.chassis_motor[Global::sentry.CHASSIS_FRL_MOTOR]->m_speed_target;
-		Global::vofa.m_data_send_frame.m_data[10] = Global::sentry.chassis_motor[Global::sentry.CHASSIS_FRA_MOTOR]->m_angle_target;
-		Global::vofa.m_data_send_frame.m_data[11] = Global::sentry.chassis_motor[Global::sentry.CHASSIS_FRA_MOTOR]->m_td->m_aim;
-		Global::vofa.m_data_send_frame.m_data[12] = Global::sentry.chassis_motor[Global::sentry.CHASSIS_FRA_MOTOR]->m_td->m_x1;
-		Global::vofa.m_data_send_frame.m_data[13] = Global::sentry.chassis_motor[Global::sentry.CHASSIS_FRA_MOTOR]->m_angle_current;
-
+		Global::vofa.m_data_send_frame.m_data[10] = Global::sentry.chassis_motor[Global::sentry.CHASSIS_BLA_MOTOR]->m_angle_target;
+		Global::vofa.m_data_send_frame.m_data[11] = Global::sentry.chassis_motor[Global::sentry.CHASSIS_BLA_MOTOR]->m_td->m_aim;
+		Global::vofa.m_data_send_frame.m_data[12] = Global::sentry.chassis_motor[Global::sentry.CHASSIS_BLA_MOTOR]->m_td->m_x1;
+		Global::vofa.m_data_send_frame.m_data[13] = Global::sentry.chassis_motor[Global::sentry.CHASSIS_BLA_MOTOR]->m_angle_current;
+		Global::vofa.m_data_send_frame.m_data[14] = Global::sentry.chassis_motor[Global::sentry.CHASSIS_BLA_MOTOR]->m_speed_pid->m_output;
+		Global::vofa.m_data_send_frame.m_data[1] = Global::sentry.chassis_motor[Global::sentry.CHASSIS_BLA_MOTOR]->m_angle_pid->m_output;
+		Global::vofa.m_data_send_frame.m_data[2] = Global::sentry.chassis_motor[Global::sentry.CHASSIS_BLA_MOTOR]->m_angle_pid->m_error;
+		Global::vofa.m_data_send_frame.m_data[3] = Global::sentry.chassis_motor[Global::sentry.CHASSIS_BLA_MOTOR]->m_angle_pid->m_output_p;
+		Global::vofa.m_data_send_frame.m_data[4] = Global::sentry.chassis_motor[Global::sentry.CHASSIS_BLA_MOTOR]->m_angle_pid->m_output_i;
+		Global::vofa.m_data_send_frame.m_data[5] = Global::sentry.chassis_motor[Global::sentry.CHASSIS_BLA_MOTOR]->m_angle_pid->m_output_d;
+		
 		#elif defined NAVIGATION_DEBUG
 
 		Global::vofa.m_data_send_frame.m_data[0] = Global::system_monitor.UART5_rx_fps;
