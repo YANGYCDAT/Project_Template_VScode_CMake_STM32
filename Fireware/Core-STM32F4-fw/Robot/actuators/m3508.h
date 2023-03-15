@@ -1,6 +1,7 @@
 #pragma once
 
 #include "pid.h"
+#include "adrc.h"
 #include "can.h"
 #include "encoder.h"
 
@@ -13,6 +14,7 @@ public:
 
 	unsigned int m_reduction_ratio; // motor reducer reduction ratio
 
+    Adrc_TD* m_td;
     Pid* m_speed_pid;
     Pid* m_angle_pid;
 

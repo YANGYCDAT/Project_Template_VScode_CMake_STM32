@@ -8,8 +8,8 @@
 #include "sentry_robot.h"
 #include "can_interface.h"
 
-// #define CHASSIS_DEBUG
-#define NAVIGATION_DEBUG
+#define CHASSIS_DEBUG
+// #define NAVIGATION_DEBUG
 
 class Global {
 public:

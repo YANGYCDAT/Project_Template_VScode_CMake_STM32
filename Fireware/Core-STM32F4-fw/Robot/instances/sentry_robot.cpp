@@ -4,6 +4,7 @@
 #include "m3508.h"
 #include "gm6020.h"
 #include "pid.h"
+#include "adrc.h"
 #include "encoder.h"
 
 
@@ -31,21 +32,25 @@ void SentryRobot::Init(void)
 void SentryRobot::InitAllActuators(void)
 {
     chassis_motor[CHASSIS_FLA_MOTOR] = new M3508(&hcan2, CHASSIS_FLA_MOTOR_ID,  CHASSIS_STEER_MOTOR_REDUCTION_RATIO);
+    chassis_motor[CHASSIS_FLA_MOTOR]->m_td = new Adrc_TD((float)2000, 0.01, 0.01);
     chassis_motor[CHASSIS_FLA_MOTOR]->m_angle_pid = new Pid(20, 0.00, 0, 10, 20000, 20000, 5000, 2000);
     chassis_motor[CHASSIS_FLA_MOTOR]->m_speed_pid = new Pid(50, 0.00, 0, 10, 20000, 20000, 5000, 2000);
     chassis_motor[CHASSIS_FLA_MOTOR]->m_encoder = new AbsEncoder(CHASSIS_FLA_ENCODER_ZERO_VALUE, ENCODER_RESOLUTION);  
     
     chassis_motor[CHASSIS_FRA_MOTOR] = new M3508(&hcan2, CHASSIS_FRA_MOTOR_ID, CHASSIS_STEER_MOTOR_REDUCTION_RATIO);
+    chassis_motor[CHASSIS_FRA_MOTOR]->m_td = new Adrc_TD(2000, 0.01, 0.01);
     chassis_motor[CHASSIS_FRA_MOTOR]->m_angle_pid = new Pid(20, 0.00, 0, 10, 20000, 20000, 5000, 2000);
     chassis_motor[CHASSIS_FRA_MOTOR]->m_speed_pid = new Pid(50, 0.00, 0, 10, 20000, 20000, 5000, 2000);
     chassis_motor[CHASSIS_FRA_MOTOR]->m_encoder = new AbsEncoder(CHASSIS_FRA_ENCODER_ZERO_VALUE, ENCODER_RESOLUTION);   
     
     chassis_motor[CHASSIS_BLA_MOTOR] = new M3508(&hcan2, CHASSIS_BLA_MOTOR_ID, CHASSIS_STEER_MOTOR_REDUCTION_RATIO);
+    chassis_motor[CHASSIS_BLA_MOTOR]->m_td = new Adrc_TD(2000, 0.01, 0.01);
     chassis_motor[CHASSIS_BLA_MOTOR]->m_angle_pid = new Pid(20, 0.00, 0, 10, 20000, 20000, 5000, 2000);
     chassis_motor[CHASSIS_BLA_MOTOR]->m_speed_pid = new Pid(50, 0.00, 0, 10, 20000, 20000, 5000, 2000);
     chassis_motor[CHASSIS_BLA_MOTOR]->m_encoder = new AbsEncoder(CHASSIS_BLA_ENCODER_ZERO_VALUE, ENCODER_RESOLUTION);
         
     chassis_motor[CHASSIS_BRA_MOTOR] = new M3508(&hcan2, CHASSIS_BRA_MOTOR_ID, CHASSIS_STEER_MOTOR_REDUCTION_RATIO);
+    chassis_motor[CHASSIS_BRA_MOTOR]->m_td = new Adrc_TD(2000, 0.01, 0.01);
     chassis_motor[CHASSIS_BRA_MOTOR]->m_angle_pid = new Pid(20, 0.00, 0, 10, 20000, 20000, 5000, 2000);
     chassis_motor[CHASSIS_BRA_MOTOR]->m_speed_pid = new Pid(50, 0.00, 0, 10, 20000, 20000, 5000, 2000);
     chassis_motor[CHASSIS_BRA_MOTOR]->m_encoder = new AbsEncoder(CHASSIS_BRA_ENCODER_ZERO_VALUE, ENCODER_RESOLUTION);
@@ -104,9 +109,15 @@ void SentryRobot::InitAllSensors(void)
 void SentryRobot::MoveChassis(void)
 {
     if (chassis_mode == CHASSIS_MANNAL || chassis_mode == CHASSIS_AUTO) {
+        #ifndef CHASSIS_COMMOM_DRIVING_MODE
         for (int i = 0; i < 4; i++) {
             chassis_motor[i]->AngleControl();
         }
+        #else
+        for (int i = 0; i < 4; i++) {
+            chassis_motor[i]->SpeedControl();
+        }
+        #endif
         for (int i = 4; i < CHASSIS_MOTOR_NUM; i++) {
             chassis_motor[i]->SpeedControl();
         }
@@ -150,6 +161,21 @@ void SentryRobot::SetChassisSpeedTarget(float fll_motor, float bll_motor, float 
     chassis_motor[CHASSIS_BLL_MOTOR]->m_speed_target = bll_motor;
     chassis_motor[CHASSIS_FRL_MOTOR]->m_speed_target = frl_motor;
     chassis_motor[CHASSIS_BRL_MOTOR]->m_speed_target = brl_motor;
+}
+
+
+
+/**
+ *@brief Set the sentry robot chassis angle speed to the specified speed
+ * 
+ *@param 
+*/
+void SentryRobot::SetChassisAngleSpeedTarget(float fla_motor, float bla_motor, float fra_motor, float bra_motor)
+{
+    chassis_motor[CHASSIS_FLA_MOTOR]->m_speed_target = fla_motor;
+    chassis_motor[CHASSIS_BLA_MOTOR]->m_speed_target = bla_motor;
+    chassis_motor[CHASSIS_FRA_MOTOR]->m_speed_target = fra_motor;
+    chassis_motor[CHASSIS_BRA_MOTOR]->m_speed_target = bra_motor;
 }
 
 

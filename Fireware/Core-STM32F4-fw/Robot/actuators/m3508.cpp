@@ -61,7 +61,8 @@ void M3508::SpeedControl(void)
  */
 void M3508::AngleControl(void)
 {
-    m_angle_pid->CalWeakenPID(m_angle_target - m_angle_current);
+    m_td->CalAdrcTD(m_angle_target);
+    m_angle_pid->CalWeakenPID(m_td->m_x1 - m_angle_current);
     m_speed_target = m_angle_pid->m_output;
     m_speed_pid->CalWeakenPID(m_speed_target - m_speed_current);
     CANContext* context = GetCANContext(m_hcan);

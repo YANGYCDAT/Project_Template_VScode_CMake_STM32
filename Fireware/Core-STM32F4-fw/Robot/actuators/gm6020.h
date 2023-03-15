@@ -1,7 +1,9 @@
 #pragma once
 #include "pid.h"
+#include "adrc.h"
 #include "can.h"
 #include "encoder.h"
+#include "adrc.h"
 
 
 class GM6020 {
@@ -13,6 +15,7 @@ public:
 
 	float m_reduction_ratio; // motor reducer reduction ratio
 
+    Adrc_TD* m_td;
     Pid* m_speed_pid;
     Pid* m_angle_pid;
     

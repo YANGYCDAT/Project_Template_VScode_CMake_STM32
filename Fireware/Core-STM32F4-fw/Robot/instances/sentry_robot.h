@@ -69,6 +69,12 @@
 #define CHASSIS_LINE_SPEED_MAX                               ( (float)(20) )
 #endif
 
+#ifdef CHASSIS_COMMOM_DRIVING_MODE
+#define CHASSIS_LINE_SPEED_MAX                              ( (float)(10) )
+#define CHASSIS_ANGLE_SPEED_MAX                              ( (float)(300) )
+
+#endif 
+
 #define CHASSIS_HALF_WHEEL_TREAD                            ( (float)(0.4f) )
 
 #define CHASSIS_WHEEL_RADIUS                                (float)(0.06f)
@@ -135,6 +141,7 @@ public:
     void MoveChassis(void);
     void MoveGimbal(void);
     void SetChassisSpeedTarget(float fll_motor, float frl_motor, float bll_motor, float brl_motor);
+    void SetChassisAngleSpeedTarget(float fla_motor, float bla_motor, float fra_motor, float bra_motor);
     void SetChassisAngleTarget(float fla_steer, float fra_steer, float bla_steer, float bra_steer);
     inline void SetChassisMode(ChassisMode mode) {chassis_mode = mode;};
     inline void SetGimbalMode(GimbalMode mode) {gimbal_mode = mode;};

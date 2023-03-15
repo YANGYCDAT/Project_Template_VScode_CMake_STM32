@@ -162,6 +162,11 @@ void Global::RobotTargetsUpdate(void) {
     } else {
         chassis_steer_pre = 0;
         chassis_steer_sum = 0;
+        for (int i = 0; i < 4; i++) {
+            Global::sentry.chassis_motor[i]->m_td->m_aim = Global::sentry.chassis_motor[i]->m_angle_target;
+            Global::sentry.chassis_motor[i]->m_td->m_x1 = Global::sentry.chassis_motor[i]->m_angle_target;
+            Global::sentry.chassis_motor[i]->m_td->m_x2 = 0;
+        }
     }
 
     // angle max limit
@@ -173,10 +178,7 @@ void Global::RobotTargetsUpdate(void) {
         steer_angle_step = steer_angle_step + 4 * CHASSIS_STEER_ANGLE_MAX;
     }
     chassis_steer_sum += steer_angle_step;
-	// Global::vofa.m_data_send_frame.m_data[14] = chassis_steer_sum;
-    // Global::vofa.m_data_send_frame.m_data[13] = steer_angle_step;
-    // Global::vofa.m_data_send_frame.m_data[12] = chassis_steer;
-    // Global::vofa.m_data_send_frame.m_data[11] = chassis_steer_pre;
+    
     Global::sentry.SetChassisSpeedTarget(chassis_speed, chassis_speed, -chassis_speed, -chassis_speed);
     Global::sentry.SetChassisAngleTarget(chassis_steer_sum, chassis_steer_sum, chassis_steer_sum, chassis_steer_sum);
 
@@ -232,6 +234,45 @@ void Global::RobotTargetsUpdate(void) {
     }
 
 #elif defined CHASSIS_COMMOM_DRIVING_MODE
-    
+    float chassis_angle_speed = 0;
+    float chassis_line_steer = 0;
+
+    if (Global::sentry.chassis_mode == SentryRobot::CHASSIS_MANNAL) {
+        if (abs(Global::dji_rc.channel.Ch3 - RC_CH_VALUE_OFFSET) > RC_CH_VALUE_DEAD) {
+
+        }
+        if (abs(Global::dji_rc.channel.Ch2 - RC_CH_VALUE_OFFSET) > RC_CH_VALUE_DEAD) {
+
+        }
+    } else if (Global::sentry.chassis_mode == SentryRobot::CHASSIS_AUTO) {
+        chassis_angle_speed = Global::navigation.m_data_receive_frame.m_data[0];
+        chassis_line_steer = Global::navigation.m_data_receive_frame.m_data[1];
+        // chassis_angle_speed = chassis_angle_speed * RADIAN2DEGREE_VALUE;
+        chassis_angle_speed = chassis_angle_speed;
+
+
+        // speed max limit
+        if (chassis_line_steer > CHASSIS_LINE_SPEED_MAX) {
+            chassis_line_steer = CHASSIS_LINE_SPEED_MAX;
+        } 
+        if (chassis_angle_speed > CHASSIS_ANGLE_SPEED_MAX) {
+            chassis_angle_speed = CHASSIS_ANGLE_SPEED_MAX;
+        } 
+        chassis_line_steer = chassis_line_steer / CHASSIS_WHEEL_RADIUS;
+    } else if (Global::sentry.chassis_mode == SentryRobot::CHASSIS_CALIBRATE) {
+        for (int i = 0; i < CHASSIS_MOTOR_NUM; i++) {
+            Global::sentry.chassis_motor[i]->m_encoder->m_sum_value 
+            = Global::sentry.chassis_motor[i]->m_encoder->m_raw_value;
+
+            Global::sentry.chassis_motor[i]->m_encoder->m_zero_value 
+            = Global::sentry.chassis_motor[i]->m_encoder->m_raw_value;
+        }
+    } else {
+
+    }
+
+    Global::sentry.SetChassisSpeedTarget(chassis_line_steer, chassis_line_steer, -chassis_line_steer, -chassis_line_steer);
+    Global::sentry.SetChassisAngleSpeedTarget(chassis_angle_speed, chassis_angle_speed, chassis_angle_speed, chassis_angle_speed);
+
 #endif
 }
